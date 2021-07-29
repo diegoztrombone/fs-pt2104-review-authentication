@@ -55,15 +55,24 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
 3. Salida (POST)
   - Para hacer logout se necesitará enviar la cookie para poder eliminarla
 
+4. Contraseña olvidada (POST)
+  - No hará falta tener una cookie con jwt válido para esto
+  - Para poder pedir una nueva contraseña por olvido de la anterior, necesitaremos que el usuario nos envíe el `email` o su `username`
+  - Recibido el `email` o `username` y comprobado que existe, se le enviará un mail con una url y un token. Esta url no será igual que la de confirmación; esta url deberá lleva el token y el mail del usuario como query params.
+    Ej: `http://localhost:3000/auth/password/request?token=123123&email=user@gmail.com`
+  - La siguiente petición NO deberá ser un GET, con lo que no valdrá clickar en el enlace y ya (al menos no aún, cuando tengamos el front sí podremos hacerlo). La petición a través del endpoint enviado en el mail será un POST con la nueva contraseña
+  - El back, el recurso al que vaya la url creada antes, deberá recibir la nueva contraseña en el `body` de la petición y el `email` y el `token` en `query`
+  - Tras comprobar que el `token` y el `email` coinciden, guarda la nueva contraseña cifrándola antes
+
 ### Autorización
 
-4. Ver la información de mi perfil (GET)
+5. Ver la información de mi perfil (GET)
   - Para acceder a la información del perfil de usuario hará falta tener una cookie con el token jwt creado anteriormente.
   - Si no hay cookie o el token jwt no es correcto, el usuario no podrá acceder a la información de su perfil
   - Si el usuario no existe o hay algún problema obteniendo la información, se devolverá un error genérico al usuario
   - Si todo ha ido bien, se devolverá: `email`, `username`, `age`, `profile_pic`, `bio`
 
-5. Actualizar mi perfil (PUT)
+6. Actualizar mi perfil (PUT)
   - Para poder actualizar la información del perfil del usuario hará falta tener una cookie con el token jwt creado anteriormente.
   - Si no hay cookie o el token jwt no es correcto, el usuario no podrá acceder a la información de su perfil
   - Crea una transacción para hacer todo este proceso y constará de los siguientes pasos:
@@ -74,21 +83,12 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
     5. Devolver los mismo campos que en el punto 4, pero actualizados
     6. Recuerda que el usuario no siempre querrá cambiar la foto de perfil, con lo que es posible que tengas que idear algún middleware para controlar que haya más información que solo la foto, por si ésta no está en el `formData` y `multer` ignora el resto de el contenido
 
-6. Actualizar contraseña (PATCH)
+7. Actualizar contraseña (PATCH)
   - Sí, sé lo que estás pensando, ¿acaso no entraría dentro de actualizar el perfil? Sí y no, aunque forme parte del pefil, suele tratarse aparte.
   - Para poder actualizar la contraseña, hará falta tener la cookie con el token
   - El usuario deberá enviar su contraseña actual y la nueva contraseña para poder hacer el cambio
   - Antes de cambiar la vieja por la nueva, comprueba que a nueva coincide
   - No te olvides de cifrar la nueva antes de guardarla!
-
-7. Contraseña olvidada (POST)
-  - No hará falta tener una cookie con jwt válido para esto
-  - Para poder pedir una nueva contraseña por olvido de la anterior, necesitaremos que el usuario nos envíe el `email` o su `username`
-  - Recibido el `email` o `username` y comprobado que existe, se le enviará un mail con una url y un token. Esta url no será igual que la de confirmación; esta url deberá lleva el token y el mail del usuario como query params.
-    Ej: `http://localhost:3000/auth/password/request?token=123123&email=user@gmail.com`
-  - La siguiente petición NO deberá ser un GET, con lo que no valdrá clickar en el enlace y ya (al menos no aún, cuando tengamos el front sí podremos hacerlo). La petición a través del endpoint enviado en el mail será un POST con la nueva contraseña
-  - El back, el recurso al que vaya la url creada antes, deberá recibir la nueva contraseña en el `body` de la petición y el `email` y el `token` en `query`
-  - Tras comprobar que el `token` y el `email` coinciden, guarda la nueva contraseña cifrándola antes
 
 8. Desactivar la cuenta del usuario (PATCH)
   - Para poder actualizar la información del perfil del usuario hará falta tener una cookie con el token jwt creado anteriormente.
