@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT UNIQUE NOT NULL,
   username TEXT UNIQUE NOT NULL,
   hash TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT false,
+  confirmation_token TEXT,
+  profile_pic TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'UTC'),
   updated_at TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'UTC')
 )
