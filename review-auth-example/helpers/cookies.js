@@ -7,7 +7,7 @@ const create = (res, accessToken, expiration = 300000) => {
 }
 
 const clear = res => {
-  res.clearCookie()
+  res.clearCookie('token')
 }
 
 module.exports = {
