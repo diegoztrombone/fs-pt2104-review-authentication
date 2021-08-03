@@ -1,0 +1,25 @@
+{
+  "name": "exercise-auth-sql",
+  "version": "1.0.0",
+  "description": "1. Inicializar un proyecto con `npm` 2. Instalar las dependencias de:   - `express`   - `slonik`   - `jsonwebtoken`   - `cookie-parser`   - `dotenv` (desarrollo)   - `nodemailer`   - `cloudinary`   - `multer`   - `nodemon` (desarrollo) 3. Escribir los dos scripts típicos en el fichero `package.json` 4. Tener a punto el fichero de docker `docker-compose.yml` con la configuración de siempre 5. Escribir el script `.sql` para la creación de la tabla `users`. Esta tabla tendrá las siguientes columnas:   - id (única, pk, not null)   - username (única, not null)   - email (única, not null)   - hash (not null)   - birthdate (not null)   - active (not null, false por defecto)   - confirmation_token (null por defecto)   - profile_pic (null por defecto)   - bio (string vacío por defecto)   - deleted (false por defecto)   - created_at (timestamp, actual sin zona horaria por defecto)   - updated_at (timestamp, actual sin zona horaria por defecto) 6. Levanta base de datos y adminer con `docker-compose up` 7. Importa tu script `sql` en adminer 8. Crea el fichero `.env` en el mismo directorio que el fichero `package.json` (es decir, en la raíz del proyecto) 9. Crea el fichero `.gitignore` y añade `node_modules` y el fichero de variables de entorno 10. Respira hondo",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^1.26.3",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.3",
+    "slonik": "^23.8.5"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12"
+  }
+}
