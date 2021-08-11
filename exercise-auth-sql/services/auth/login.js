@@ -1,19 +1,21 @@
 const { getUser } = require('../../queries/auth')
-const { compare } = require('../../helpers/hash')
-const { create } = require('../../helpers/cookies')
+
+const { serialize, hash, cookies } = require('../../helpers')
+
+
 
 module.exports = db => async (req, res, next) => {
     const { email, password } = req.body
 
-    const user = await getUser(db, { email }, compare(password))
+    const user = await getUser(db, { email }, hash.compare(password))
 
     if (user === false) {
+        cookies.clear(res)
         return next({ error: new Error('Something went wrong') })
     }
+    
+    serialize(res, { email: user.email, username: user.username})
 
-    create(res, 'hola que tal')
-
-      
     res.status(200).json({
         success: true,
         data: {

@@ -1,12 +1,14 @@
 const { createUser } = require('../../queries/auth')
-const { encrypt } = require('../../helpers/hash')
+
+const { hash } = require('../../helpers')
+
 
 module.exports = db => async (req, res, next) => {
     const { username, email, password, birthdate, bio } = req.body
 
-    const hash = await encrypt(password)
+    const hashed = await hash.encrypt(password)
 
-    const result = await createUser(db, { username, email, hash, birthdate, bio })
+    const result = await createUser(db, { username, email, hashed, birthdate, bio })
 
     if (result === false) {
         return next({ error: new Error('Cant create a user') })

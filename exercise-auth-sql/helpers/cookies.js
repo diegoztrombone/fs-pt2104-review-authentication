@@ -1,5 +1,5 @@
-const create = (res, token, expiration = 300000) => {
-    res.cookie('token', token, { 
+const create = (res, accessToken, expiration = 300000) => {
+    res.cookie('token', accessToken, { 
         expires: new Date(Date.now() + expiration),
         secure: false,
         httpOnly: true,
@@ -7,7 +7,7 @@ const create = (res, token, expiration = 300000) => {
 }
 
 const clear = res => {
-    res.clearCookie()
+    res.clearCookie('token')
 
 }
 
