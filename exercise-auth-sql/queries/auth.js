@@ -1,12 +1,12 @@
 const { sql } = require('slonik')
 
-const createUser = async (db, { username, email, hashed, birthdate, bio }) => {
+const createUser = async (db, { username, email, hashed, confirmationToken, birthdate, bio }) => {
   try {
     return await db.query(sql`
         INSERT INTO users (
-          email, username, hash, birthdate, bio, active
+          email, username, hash, birthdate, bio, confirmation_token
         ) VALUES (
-          ${email}, ${username}, ${hashed}, ${birthdate}, ${bio}, true
+          ${email}, ${username}, ${hashed}, ${birthdate}, ${bio}, ${confirmationToken}
         );
       `)
   } catch (error) {
@@ -20,7 +20,9 @@ const getUser = async (db, { email }, fn) => {
     const result = await db.maybeOne(sql`
       SELECT email, username, hash
       FROM users
-      WHERE email LIKE ${email}
+      WHERE 
+        email LIKE ${email} AND 
+        active = true;
     `)
 
     if (!result) {
@@ -42,7 +44,23 @@ const getUser = async (db, { email }, fn) => {
   }
 
 }
+
+const confirmUser = async (db, {confirmationToken}) => {
+  try {
+    return await db.query(sql`
+    UPDATE users
+    SET 
+      active = true,
+      confirmation_token = null
+    WHERE confirmation_token LIKE ${confirmationToken};
+    `)
+  } catch (error) {
+    console.info('> error at "confirmUser" query: ', error.message)
+    return false
+  }
+}
 module.exports = {
   createUser,
   getUser,
+  confirmUser
 }

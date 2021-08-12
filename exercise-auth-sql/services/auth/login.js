@@ -1,8 +1,5 @@
 const { getUser } = require('../../queries/auth')
-
 const { serialize, hash, cookies } = require('../../helpers')
-
-
 
 module.exports = db => async (req, res, next) => {
     const { email, password } = req.body

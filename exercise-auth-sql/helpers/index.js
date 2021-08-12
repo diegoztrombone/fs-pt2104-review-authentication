@@ -1,6 +1,7 @@
 const { create, clear } = require('./cookies')
-const { encrypt, compare } = require('./hash')
+const { encrypt, compare, createConfirmToken } = require('./hash')
 const { toJWT, fromJWT } = require('./jwt')
+const { sendMail } = require('./mailer')
 
 const serialize = (res, { email, username }) => {
     const accessToken = toJWT(email, username)
@@ -8,14 +9,16 @@ const serialize = (res, { email, username }) => {
 
 }
 
-const deserialize = () => {
-
+const deserialize = req => {
+    const { token } = req.cookies
+    return fromJWT(token)
 }
 
 module.exports = {
     cookies: { create, clear },
-    hash: { encrypt, compare },
+    hash: { encrypt, compare, createConfirmToken },
     jwt: { toJWT, fromJWT },
     serialize,
     deserialize,
+    sendMail,
 }

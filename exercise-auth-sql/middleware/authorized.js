@@ -1,13 +1,11 @@
-const { jwt } = require('../helpers')
+const { deserialize } = require('../helpers')
 
 module.exports = (req, res, next) => {
-    const { token } = req.cookies
-    const user = jwt.fromJWT(token)
-
+    const user = deserialize(req)
     if (user === false) {
         return next({
             statuscode: 401, 
-            error: new Error('Unauthorized primo'),
+            error: new Error('Unauthorized'),
         })
     }
 
