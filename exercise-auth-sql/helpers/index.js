@@ -1,10 +1,10 @@
 const { create, clear } = require('./cookies')
 const { encrypt, compare, createConfirmToken } = require('./hash')
 const { toJWT, fromJWT } = require('./jwt')
-const { sendMail } = require('./mailer')
+const { sendMail, loginMail } = require('./mailer')
 
-const serialize = (res, { email, username }) => {
-    const accessToken = toJWT(email, username)
+const serialize = (res, { email, username, active }) => {
+    const accessToken = toJWT(email, username, active)
     create(res, accessToken)
 
 }
@@ -18,6 +18,7 @@ module.exports = {
     cookies: { create, clear },
     hash: { encrypt, compare, createConfirmToken },
     jwt: { toJWT, fromJWT },
+    mailer: { sendMail, loginMail },
     serialize,
     deserialize,
     sendMail,

@@ -39,18 +39,18 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
 ### Autenticación
 
 1. Registro (POST)
-  - Para el registro hará falta `email`, `username` y `password`
-  - Si alguno de los campos faltan, no se debe permitir el registro (crea un middleware para ello)
-  - Si el `email` o `username` están en uso, no se debe permitir el registro
-  - Si todo ha ido bien, se devuelve una respuesta satisfactoria y se enviará un email de confirmacióin al usuario (recuerda que tienes que generar un token de confirmación, tanto para el correo como para la base de datos)
-  - Cuando el usuario acceda a su correo y haga click sobre el enlace, si todo ha ido bien, se cambiará el campo de la columna `active` a `true` y se eliminará el token de confirmación de la base de datos de ese usuario
-  - Tras el paso anterior, se volverá a enviar otro correo al usuario, con sus datos más básicos (email y username) en el contenido con algún mensaje confirmatorio de que ya puede acceder a la plataforma
+  - (OK) Para el registro hará falta `email`, `username` y `password` 
+  - (OK) Si alguno de los campos faltan, no se debe permitir el registro (crea un middleware para ello)
+  - (OK) Si el `email` o `username` están en uso, no se debe permitir el registro
+  - (OK) Si todo ha ido bien, se devuelve una respuesta satisfactoria y se enviará un email de confirmacióin al usuario (recuerda que tienes que generar un token de confirmación, tanto para el correo como para la base de datos)
+  - (OK) Cuando el usuario acceda a su correo y haga click sobre el enlace, si todo ha ido bien, se cambiará el campo de la columna `active` a `true` y se eliminará el token de confirmación de la base de datos de ese usuario
+  - (OK) Tras el paso anterior, se volverá a enviar otro correo al usuario, con sus datos más básicos (email y username) en el contenido con algún mensaje confirmatorio de que ya puede acceder a la plataforma
 
 2. Acceso (POST)
-  - Para hacer login se necesitará `email` o `username` indistintamente y `password`
-  - Si alguno de los campos faltan, no se debe permitir el acceso
-  - Si el usuario no existe, no se debe permitir el acceso
-  - Si todo ha ido bien, se devolverá algún dato básico del usuario (email, username) y se creará en la respuesta del back una cookie que contendrá un jwt con la información del usuario `email`, `username` y el valor del campo `active`
+  - (OK) Para hacer login se necesitará `email` o `username` indistintamente y `password`
+  - (OK) Si alguno de los campos faltan, no se debe permitir el acceso
+  - (OK) Si el usuario no existe, no se debe permitir el acceso
+  - (OK) Si todo ha ido bien, se devolverá algún dato básico del usuario (email, username) y se creará en la respuesta del back una cookie que contendrá un jwt con la información del usuario `email`, `username` y el valor del campo `active`
 
 3. Salida (POST)
   - Para hacer logout se necesitará enviar la cookie para poder eliminarla

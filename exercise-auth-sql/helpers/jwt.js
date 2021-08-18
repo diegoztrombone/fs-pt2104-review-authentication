@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken')
 
 
-const toJWT = (email, username) => {
-    return jwt.sign({ email, username }, process.env.JWT_SECRET)
+const toJWT = (email, username, active) => {
+    return jwt.sign({ email, username, active }, process.env.JWT_SECRET)
 }
 
 const fromJWT = accessToken => {

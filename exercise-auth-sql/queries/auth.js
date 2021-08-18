@@ -1,12 +1,12 @@
 const { sql } = require('slonik')
 
-const createUser = async (db, { username, email, hashed, confirmationToken, birthdate, bio }) => {
+const createUser = async (db, { username, email, hash, confirmationToken, birthdate, bio }) => {
   try {
     return await db.query(sql`
         INSERT INTO users (
           email, username, hash, birthdate, bio, confirmation_token
         ) VALUES (
-          ${email}, ${username}, ${hashed}, ${birthdate}, ${bio}, ${confirmationToken}
+          ${email}, ${username}, ${hash}, ${birthdate}, ${bio}, ${confirmationToken}
         );
       `)
   } catch (error) {
@@ -15,16 +15,18 @@ const createUser = async (db, { username, email, hashed, confirmationToken, birt
   }
 }
 
-const getUser = async (db, { email }, fn) => {
+const getUser = async (db, { email, username }, fn) => {
   try {
+    let subquery 
+    email ? subquery = sql`email LIKE ${email}` : subquery = sql`username LIKE ${username}`
     const result = await db.maybeOne(sql`
-      SELECT email, username, hash
+      SELECT email, username, hash, active
       FROM users
       WHERE 
-        email LIKE ${email} AND 
+        ${subquery} AND 
         active = true;
     `)
-
+    console.log(result)
     if (!result) {
       throw new Error('Invalid credentials')
     }
@@ -47,20 +49,38 @@ const getUser = async (db, { email }, fn) => {
 
 const confirmUser = async (db, {confirmationToken}) => {
   try {
-    return await db.query(sql`
+    const result =  await db.query(sql`
     UPDATE users
     SET 
       active = true,
       confirmation_token = null
     WHERE confirmation_token LIKE ${confirmationToken};
     `)
+    if (!result.rowCount) {
+      throw new Error('Invalid Token')
+    }
+    return result
   } catch (error) {
     console.info('> error at "confirmUser" query: ', error.message)
+    return false
+  }
+}
+
+const confirmProfile = async (db, {confirmationToken}) => {
+  try {
+    return await db.maybeOne(sql`
+      SELECT email, username
+      FROM users
+      WHERE
+       confirmation_token LIKE ${confirmationToken};`)
+  } catch (error) {
+    console.info('> error at "confirmProfile" query: ', error.message)
     return false
   }
 }
 module.exports = {
   createUser,
   getUser,
-  confirmUser
+  confirmUser,
+  confirmProfile
 }
