@@ -53,9 +53,9 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
   - (OK) Si todo ha ido bien, se devolverá algún dato básico del usuario (email, username) y se creará en la respuesta del back una cookie que contendrá un jwt con la información del usuario `email`, `username` y el valor del campo `active`
 
 3. Salida (POST)
-  - Para hacer logout se necesitará enviar la cookie para poder eliminarla
+  - (OK) Para hacer logout se necesitará enviar la cookie para poder eliminarla
 
-4. Contraseña olvidada (POST)
+4. (OK) Contraseña olvidada (POST)
   - No hará falta tener una cookie con jwt válido para esto
   - Para poder pedir una nueva contraseña por olvido de la anterior, necesitaremos que el usuario nos envíe el `email` o su `username`
   - Recibido el `email` o `username` y comprobado que existe, se le enviará un mail con una url y un token. Esta url no será igual que la de confirmación; esta url deberá lleva el token y el mail del usuario como query params.

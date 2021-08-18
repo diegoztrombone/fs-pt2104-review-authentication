@@ -1,3 +1,4 @@
 const slonik = require('slonik')
+const { SLONIK_URL } = require('../constants')
 
-module.exports = slonik.createPool(process.env.SLONIK_URL)
+module.exports = slonik.createPool(SLONIK_URL)

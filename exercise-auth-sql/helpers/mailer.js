@@ -23,6 +23,21 @@ const templateLoginOk = ({ to, user }) => ({
     `
 })
 
+const templateNewPassword = ({ to, token }) => ({
+  from: `"🎮" <${process.env.MAIL_USER}>`,
+  to,
+  subject: 'Reset Password!',
+  html: `
+      <h3>Cambio de contraseña</h3>
+      <p>Para poder cambiar su contraseña, haga click
+        <a href="http://localhost:3000/auth/password/request?token=${token}&email=${to}">
+          aquí
+        </a>
+      </p>
+    `
+})
+
+
 const sendMail = async ({ to, confirmationToken }) => {
   const template = templateConfirmationToken({ to, confirmationToken })
   return await transporter.sendMail(template)
@@ -33,7 +48,13 @@ const loginMail = async ({ to, user }) => {
   return await transporter.sendMail(template)
 }
 
+const newPasswordMail = async ({ to, token }) => {
+  const template = templateNewPassword({ to, token })
+  return await transporter.sendMail(template)
+}
+
 module.exports = {
   sendMail,
   loginMail,
+  newPasswordMail,
 }

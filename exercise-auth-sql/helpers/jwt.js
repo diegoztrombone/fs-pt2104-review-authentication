@@ -1,13 +1,14 @@
 const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = require('../constants')
 
 
 const toJWT = (email, username, active) => {
-    return jwt.sign({ email, username, active }, process.env.JWT_SECRET)
+    return jwt.sign({ email, username, active }, JWT_SECRET)
 }
 
 const fromJWT = accessToken => {
     try {
-        return jwt.verify(accessToken, process.env.JWT_SECRET)
+        return jwt.verify(accessToken, JWT_SECRET)
         
     } catch (error) {
         console.info('> error at "fromJWT" helper: ', error.message)

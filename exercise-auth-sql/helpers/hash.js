@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
+const { SALT } = require('../constants')
 
 const encrypt = async password => {
-    const rounds = process.env.SALT
+    const rounds = SALT
     const salt = await bcrypt.genSalt(parseInt(rounds))
     return await bcrypt.hash(password, salt)
 }

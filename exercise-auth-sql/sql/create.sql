@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users  (
     birthdate DATE NOT NULL,
     active BOOLEAN NOT NULL DEFAULT false,
     confirmation_token TEXT DEFAULT NULL,
+    password_token TEXT DEFAULT NULL,
     profile_pic TEXT DEFAULT NULL,
     bio TEXT DEFAULT NULL,
     deleted BOOLEAN DEFAULT false,
