@@ -55,8 +55,6 @@ const getUser = async (db, { email, username }, fn) => {
 
     const isValidPassword = await fn(result.hash)
 
-    console.log(isValidPassword)
-
     if (!isValidPassword) {
       throw new Error('Invalid credentials')
     }

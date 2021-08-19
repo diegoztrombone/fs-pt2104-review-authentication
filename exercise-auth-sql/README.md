@@ -66,7 +66,7 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
 
 ### Autorización
 
-5. Ver la información de mi perfil (GET)
+5. (OK) Ver la información de mi perfil (GET)
   - Para acceder a la información del perfil de usuario hará falta tener una cookie con el token jwt creado anteriormente.
   - Si no hay cookie o el token jwt no es correcto, el usuario no podrá acceder a la información de su perfil
   - Si el usuario no existe o hay algún problema obteniendo la información, se devolverá un error genérico al usuario
@@ -83,20 +83,20 @@ Vamos a crear todo el flujo de autenticación y añadiremos la autorización a a
     5. Devolver los mismo campos que en el punto 4, pero actualizados
     6. Recuerda que el usuario no siempre querrá cambiar la foto de perfil, con lo que es posible que tengas que idear algún middleware para controlar que haya más información que solo la foto, por si ésta no está en el `formData` y `multer` ignora el resto de el contenido
 
-7. Actualizar contraseña (PATCH)
+7. (OK) Actualizar contraseña (PATCH)
   - Sí, sé lo que estás pensando, ¿acaso no entraría dentro de actualizar el perfil? Sí y no, aunque forme parte del pefil, suele tratarse aparte.
   - Para poder actualizar la contraseña, hará falta tener la cookie con el token
   - El usuario deberá enviar su contraseña actual y la nueva contraseña para poder hacer el cambio
   - Antes de cambiar la vieja por la nueva, comprueba que a nueva coincide
   - No te olvides de cifrar la nueva antes de guardarla!
 
-8. Desactivar la cuenta del usuario (PATCH)
+8. (OK)Desactivar la cuenta del usuario (PATCH)
   - Para poder actualizar la información del perfil del usuario hará falta tener una cookie con el token jwt creado anteriormente.
   - Si no hay cookie o el token jwt no es correcto, el usuario no podrá acceder a la información de su perfil
   - Cambia el campo `deleted` a `true`
   - Modifica también la lógica para que ninguno de los endpoints anteriormente creados pueda hacer nada como mostrar o actualizar información si el campo `deleted` del usuario es `true` (tampoco devolverás ninguna cookie) 
 
-9. Activar la cuenta del usuario (PATCH)
+9.(OK) Activar la cuenta del usuario (PATCH)
   - Para poder actualizar la información del perfil del usuario hará falta tener una cookie con el token jwt creado anteriormente.
   - Si no hay cookie o el token jwt no es correcto, el usuario no podrá acceder a la información de su perfil
   - Cambia el campo `deleted` a `false`
